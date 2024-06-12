@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.Payload.ApiResponse;
 import com.example.backend.Payload.OrderDto;
 import com.example.backend.Payload.OrderRequest;
+import com.example.backend.Payload.OrderResponse;
 import com.example.backend.Service.OrderService;
 
 @RestController
@@ -42,5 +44,13 @@ public class OrderController {
 	public ResponseEntity<OrderDto> getById(@PathVariable int orderId){
 		OrderDto orderDto = this.orderService.getById(orderId);
 		return new ResponseEntity<OrderDto>(orderDto,HttpStatus.ACCEPTED); 
+	}
+	
+	@GetMapping("/viewAllOrder")
+	public OrderResponse viewAllOrder(
+			@RequestParam(value="pageNumber", defaultValue= "0",required=false) int pageNumber,
+			@RequestParam(value="pageSize", defaultValue= "2",required=false) int pageSize) {	
+		OrderResponse response = this.orderService.viewAllOrder(pageNumber, pageSize);
+	return response;	
 	}
 }
