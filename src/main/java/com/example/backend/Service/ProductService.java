@@ -5,6 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.Exception.ResourceNotFoundException;
@@ -12,6 +16,7 @@ import com.example.backend.Model.Category;
 import com.example.backend.Model.Product;
 import com.example.backend.Payload.CategoryDto;
 import com.example.backend.Payload.ProductDto;
+import com.example.backend.Payload.ProductResponse;
 import com.example.backend.Repository.CategoryRepository;
 import com.example.backend.Repository.ProductRepository;
 
@@ -41,6 +46,36 @@ public class ProductService {
 		List<ProductDto> allListDto = allList.stream().map(product -> this.toDto(product)).collect(Collectors.toList());
 		return allListDto;
 	}
+	
+//	public ProductResponse viewAllProduct(int pageNumber, int pageSize, String sortBy, String SortDir){
+//		Sort sort = null;
+//		if(SortDir.trim().toLowerCase().equals("asc")){
+//			sort = sort.by(sortBy).ascending();
+//			
+//		}else {
+//			sort = sort.by(sortBy).descending();
+//		}
+//		
+//		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+//		try {
+//		Page<Product> page = this.productRepository.findAll(pageable);
+//		
+//		List<Product> pageProduct = page.getContent();
+//		List<ProductDto> productDto = pageProduct.stream().map(p -> this.toDto(p)).collect(Collectors.toList());
+//		
+//		ProductResponse response = new ProductResponse();
+//		
+//		response.setContent(productDto);
+//		response.setPageNumber(page.getNumber());
+//		response.setPageSize(page.getSize());
+//		response.setTotalpages(page.getTotalPages());
+//		response.setLastPage(page.isLast());
+//		return response;
+//		}catch(Exception e){
+//			System.out.println(e);
+//			return new ProductResponse();
+//		}
+//	}
 	
 	public Product viewProductById(int Id) {
 		Product send =  productRepository.findById(Id).orElseThrow(()-> new ResourceNotFoundException("This Id: " + Id + " product is not found!" ));

@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.Model.Product;
+import com.example.backend.Payload.AppConstant;
 import com.example.backend.Payload.ProductDto;
+import com.example.backend.Payload.ProductResponse;
 import com.example.backend.Service.ProductService;
 
 @RestController
@@ -36,6 +39,21 @@ public class ProductController {
 		List<ProductDto> view = productService.viewAllProduct();
 		return new ResponseEntity<List<ProductDto>>(view,HttpStatus.ACCEPTED);
 	}
+	
+//Pagination
+	
+//	@GetMapping("/viewAll")
+//	public ProductResponse viewAllProduct(
+//			@RequestParam(value="pageNumber", defaultValue= AppConstant.PAGE_NUMBER_STRING,required=false) int pageNumber,
+//			@RequestParam(value="pageSize", defaultValue= AppConstant.PAGE_SIZE_STRING,required=false) int pageSize,
+//			@RequestParam(value="sortBy", defaultValue= AppConstant.SORT_BY_STRING,required=false) String sortBy,
+//			@RequestParam(value="sortDir", defaultValue= AppConstant.SORT_DIR_STRING,required=false) String sortDir){
+//		List<ProductDto> view = productService.viewAllProduct();
+//		return new ResponseEntity<List<ProductDto>>(view,HttpStatus.ACCEPTED);
+		
+//		ProductResponse response = productService.viewAllProduct(pageNumber,pageSize,sortBy,sortDir);
+//		return response;
+//	}
 	
 	@GetMapping("/viewProductById/{productId}")
 	public ResponseEntity<Product> viewProductById(@PathVariable int productId) {
