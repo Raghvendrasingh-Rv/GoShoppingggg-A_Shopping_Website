@@ -1,6 +1,8 @@
 package com.example.backend.Config;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -40,10 +42,11 @@ public class SecurityConfid extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	public static String[] public_url = {"/auth/login", "/user/create"};
+	public static String[] public_url = {"/auth/login", "/user/create", "/category/viewAll", "/product/viewAll","/product/getbyCategoryId/{categoryId}"};
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.cors();
 		http
 		.csrf()
 		.disable()
@@ -84,16 +87,20 @@ public class SecurityConfid extends WebSecurityConfigurerAdapter{
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowCredentials(true);
-		configuration.addAllowedOriginPattern("*");
+		configuration.addAllowedOrigin("http://localhost:3000");
+		
 		configuration.addAllowedHeader("Authorization");
-		configuration.addAllowedHeader("Context-Type");
-		configuration.addAllowedHeader("Accept");
-		configuration.addAllowedHeader("POST");
-		configuration.addAllowedHeader("GET");
-		configuration.addAllowedHeader("PUT");
-		configuration.addAllowedHeader("DELETE");
-		configuration.addAllowedHeader("OPTIONS");
-		configuration.setMaxAge(3600L);;
+		configuration.addAllowedHeader("Content-Type");
+		configuration.addAllowedMethod("Accept");
+		configuration.addAllowedMethod("POST");
+		configuration.addAllowedMethod("GET");
+		configuration.addAllowedMethod("PUT");
+		configuration.addAllowedMethod("DELETE");
+		configuration.addAllowedMethod("OPTIONS");
+//		configuration.setAllowedOrigins(Arrays.asList("*"));
+//		configuration.setAllowedMethods(Arrays.asList("*"));
+//		configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.setMaxAge(3600L);
 		source.registerCorsConfiguration("/**", configuration);
 		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
 		bean.setOrder(-110);
